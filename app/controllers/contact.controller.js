@@ -3,10 +3,6 @@ const MongoDB = require("../utils/mongodb.util");
 const ApiError = require("../api-error");
 
 
-exports.findAllFavorite = (req, res) => {
-    res.send({message: "findAllFavorite"});
-}
-
 exports.create = async (req, res, next) => {
     if(!req.body?.name) { // req tại body không chứa name
         return next(new ApiError(400, "Name can not empty")); // next() chuyển tới middleware để xử lý lỗi
@@ -87,6 +83,18 @@ exports.delete = async(req, res, next) => {
     }catch(error){
         return next(
             new ApiError(500, `Could not delete contact with id= ${req.params.id}`)
+        );
+    }
+};
+
+exports.findAllFavorite = async(req, res, next) => {
+    try{
+        const contactService = new ContactService(MongoDB.client);
+        const documents = await contactService.findFavorite();
+        return res.send(documents);
+    }catch(error){
+        return next(
+            new ApiError(500, "An error occurred while retrieving favorite contacts")
         );
     }
 };
