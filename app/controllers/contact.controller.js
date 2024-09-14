@@ -2,14 +2,6 @@ const ContactService = require("../services/contact.service");
 const MongoDB = require("../utils/mongodb.util");
 const ApiError = require("../api-error");
 
-exports.create = (req, res) => {
-    res.send({message : "create handler"});
-}
-
-exports.findAll = (req, res) => {
-    res.send({message: "findAll handler"});
-}
-
 exports.findOne = (req, res) => {
     res.send({message: "findOne handler"});
 }
@@ -44,4 +36,24 @@ exports.create = async (req, res, next) => {
             new ApiError(500, "An error occured while creating the contact")
         );
     }
+}
+
+exports.findAll = async (req, res, next) => {
+    let documents = [];
+    try{
+        const contactService = new ContactService(MongoDB.client);
+        const { name }= req.query; // lấy giá trị của tham số name từ trong query
+        if(name) {
+            console.log("1");
+            documents = await contactService.findByName(name);
+        }else {
+            onsole.log("2");
+            documents = await contactService.find({});
+        }
+    }catch(error){
+        return next(
+            new ApiError(500, "An error occured while retrieving contatcs")
+        )
+    }
+    return res.send(documents);
 }

@@ -29,6 +29,17 @@ class ContactService {
         );
         return result;
     }
+
+    async find(filter){
+        const cursor = await this.Contact.find(filter); // sử dụng method .find(filter) của mongodb để tìm và trả về con trỏ
+        return await cursor.toArray();
+    }
+
+    async findByName(name) {
+        return await this.find({
+            name: { $regex: new RegExp(name), $options: "i"}, //toán tử regex-trong MongoDB cho phép tìm doc mà name chứa chuổi con khớp với biểu thức chính quy được tạo bởi new RegExp(name), op i ko phân biệt hoa thường
+        });
+    }
 }
 
 module.exports = ContactService;
