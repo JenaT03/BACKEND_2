@@ -59,6 +59,13 @@ class ContactService {
         );
         return result; // chứa doc được update success còn không thì là null
     }
+
+    async delete(id) {
+        const result = await this.Contact.findOneAndDelete({
+            _id: ObjectId.isValid(id)? new ObjectId(id) : null,
+        });
+        return result;
+    }
 }
 
 module.exports = ContactService;
