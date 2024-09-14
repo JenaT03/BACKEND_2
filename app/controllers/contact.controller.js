@@ -25,7 +25,6 @@ exports.findAll = async (req, res, next) => {
         const contactService = new ContactService(MongoDB.client);
         const { name }= req.query; // lấy giá trị của tham số name từ trong query
         if(name) {
-            console.log("1");
             documents = await contactService.findByName(name);
         }else {
             onsole.log("2");
