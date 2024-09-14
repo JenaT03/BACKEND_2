@@ -9,7 +9,7 @@ async function startServer() {
 
         const PORT = config.app.port;
         app.listen(PORT, () => {
-            console.log(`Server is running on port ${POSRT}`);
+            console.log(`Server is running on port ${PORT}`);
         });
     }catch (error){
         console.log("Cannot connect to the database!", error);
