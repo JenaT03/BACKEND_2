@@ -27,7 +27,6 @@ exports.findAll = async (req, res, next) => {
         if(name) {
             documents = await contactService.findByName(name);
         }else {
-            onsole.log("2");
             documents = await contactService.find({});
         }
     }catch(error){
